@@ -1,0 +1,721 @@
+// ============================================================
+//  MONGODB SHELL -- EMPLOYEE COLLECTION
+//  Replicated from: karikol_mgdb.txt style
+//  Fields: employee_id, name, phone, mail, role,
+//          salary, manager_id, address_city, address_state
+// ============================================================
+
+// ============================================================
+// 1. insertOne() -- Insert a single employee
+// ============================================================
+
+db.employee.insertOne({
+  employee_id      : 101,
+  name             : "Rajesh Kumar",
+  phone            : "9840123456",
+  mail             : "rajesh@spares.com",
+  role             : "Senior Staff",
+  salary           : 90000,
+  manager_id       : null,
+  address_city     : "Chennai",
+  address_state    : "Tamil Nadu"
+});
+
+{
+  acknowledged: true,
+  insertedId: ObjectId('69ece128206b0518276f4664')
+}
+
+
+// ============================================================
+// 2. insertMany() -- Insert multiple employees
+// ============================================================
+
+db.employee.insertMany([
+  {
+    employee_id      : 102,
+    name             : "Rajesh Kumar",
+    phone            : "9123456789",
+    mail             : "rajesh@parts.com",
+    role             : "Senior Staff",
+    salary           : 90000,
+    manager_id       : 101,
+    address_city     : "Chennai",
+    address_state    : "Tamil Nadu"
+  },
+  {
+    employee_id      : 103,
+    name             : "Priya Sharma",
+    phone            : "9123456790",
+    mail             : "priya@parts.com",
+    role             : "Senior Staff",
+    salary           : 55000,
+    manager_id       : 101,
+    address_city     : "Madurai",
+    address_state    : "Tamil Nadu"
+  },
+  {
+    employee_id      : 104,
+    name             : "Vijay Reddy",
+    phone            : "9123456791",
+    mail             : "vijay@parts.com",
+    role             : "Inventory Clerk",
+    salary           : 50000,
+    manager_id       : 103,
+    address_city     : "Madurai",
+    address_state    : "Tamil Nadu"
+  },
+  {
+    employee_id      : 105,
+    name             : "Lakshmi Iyer",
+    phone            : "9123456792",
+    mail             : "lakshmi@parts.com",
+    role             : "Accounts Manager",
+    salary           : 85000,
+    manager_id       : 103,
+    address_city     : "Chennai",
+    address_state    : "Tamil Nadu"
+  },
+  {
+    employee_id      : 106,
+    name             : "Virat",
+    phone            : "9123456718",
+    mail             : "virat@parts.com",
+    role             : "Inventory Clerk",
+    salary           : 50000,
+    manager_id       : 101,
+    address_city     : "VIRUDUNAGAR",
+    address_state    : "Tamil Nadu"
+  }
+]);
+
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69ece134206b0518276f4665'),
+    '1': ObjectId('69ece134206b0518276f4666'),
+    '2': ObjectId('69ece134206b0518276f4667'),
+    '3': ObjectId('69ece134206b0518276f4668'),
+    '4': ObjectId('69ece134206b0518276f4669')
+  }
+}
+
+
+// ============================================================
+// 3. updateOne() -- Update role and salary using $set
+// ============================================================
+
+db.employee.updateOne(
+  { employee_id: 101 },
+  {
+    $set: {
+      role   : "Store Manager",
+      salary : 95000
+    }
+  }
+);
+
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+// ============================================================
+// 4. updateOne() -- Rename a field using $rename
+// ============================================================
+
+db.employee.updateOne(
+  { employee_id: 101 },
+  {
+    $rename: { "phone": "mobile" }
+  }
+);
+
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+// ============================================================
+// 5. updateOne() -- Update role again using $set
+// ============================================================
+
+db.employee.updateOne(
+  { employee_id: 101 },
+  {
+    $set: { role: "Senior Manager" }
+  }
+);
+
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+// ============================================================
+// 6. replaceOne() -- Replace the entire document
+// ============================================================
+
+db.employee.replaceOne(
+  { employee_id: 101 },
+  {
+    employee_id  : 101,
+    name         : "Rajesh Kumar",
+    phone        : "9999999999",
+    mail         : "rajesh@director.com",
+    role         : "Director",
+    salary       : 100000,
+    manager_id   : null,
+    address_city : "Chennai",
+    address_state: "Tamil Nadu"
+  }
+);
+
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+// ============================================================
+// 7. find() -- Find all documents
+// ============================================================
+
+db.employee.find();
+
+{
+  _id: ObjectId('69ece128206b0518276f4664'),
+  employee_id  : 101,
+  name         : 'Rajesh Kumar',
+  phone        : '9999999999',
+  mail         : 'rajesh@director.com',
+  role         : 'Director',
+  salary       : 100000,
+  manager_id   : null,
+  address_city : 'Chennai',
+  address_state: 'Tamil Nadu'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4665'),
+  employee_id  : 102,
+  name         : 'Rajesh Kumar',
+  phone        : '9123456789',
+  mail         : 'rajesh@parts.com',
+  role         : 'Senior Staff',
+  salary       : 90000,
+  manager_id   : 101,
+  address_city : 'Chennai',
+  address_state: 'Tamil Nadu'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4666'),
+  employee_id  : 103,
+  name         : 'Priya Sharma',
+  phone        : '9123456790',
+  mail         : 'priya@parts.com',
+  role         : 'Senior Staff',
+  salary       : 55000,
+  manager_id   : 101,
+  address_city : 'Madurai',
+  address_state: 'Tamil Nadu'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4667'),
+  employee_id  : 104,
+  name         : 'Vijay Reddy',
+  phone        : '9123456791',
+  mail         : 'vijay@parts.com',
+  role         : 'Inventory Clerk',
+  salary       : 50000,
+  manager_id   : 103,
+  address_city : 'Madurai',
+  address_state: 'Tamil Nadu'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4668'),
+  employee_id  : 105,
+  name         : 'Lakshmi Iyer',
+  phone        : '9123456792',
+  mail         : 'lakshmi@parts.com',
+  role         : 'Accounts Manager',
+  salary       : 85000,
+  manager_id   : 103,
+  address_city : 'Chennai',
+  address_state: 'Tamil Nadu'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4669'),
+  employee_id  : 106,
+  name         : 'Virat',
+  phone        : '9123456718',
+  mail         : 'virat@parts.com',
+  role         : 'Inventory Clerk',
+  salary       : 50000,
+  manager_id   : 101,
+  address_city : 'VIRUDUNAGAR',
+  address_state: 'Tamil Nadu'
+}
+
+
+// ============================================================
+// 8. find() -- Find by specific employee_id
+// ============================================================
+
+db.employee.find({ employee_id: 101 });
+
+{
+  _id: ObjectId('69ece128206b0518276f4664'),
+  employee_id  : 101,
+  name         : 'Rajesh Kumar',
+  phone        : '9999999999',
+  mail         : 'rajesh@director.com',
+  role         : 'Director',
+  salary       : 100000,
+  manager_id   : null,
+  address_city : 'Chennai',
+  address_state: 'Tamil Nadu'
+}
+
+
+// ============================================================
+// 9. find() with $or -- Find by multiple roles
+// ============================================================
+
+db.employee.find({
+  $or: [
+    { role: "Accounts Manager" },
+    { role: "Director" }
+  ]
+});
+
+{
+  _id: ObjectId('69ece128206b0518276f4664'),
+  employee_id: 101,
+  name       : 'Rajesh Kumar',
+  role       : 'Director',
+  salary     : 100000,
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4668'),
+  employee_id: 105,
+  name       : 'Lakshmi Iyer',
+  role       : 'Accounts Manager',
+  salary     : 85000,
+  address_city: 'Chennai'
+}
+
+
+// ============================================================
+// 10. find() with $gt -- Find employees with employee_id > 103
+// ============================================================
+
+db.employee.find({ employee_id: { $gt: 103 } });
+
+{
+  _id: ObjectId('69ece134206b0518276f4667'),
+  employee_id: 104,
+  name       : 'Vijay Reddy',
+  role       : 'Inventory Clerk',
+  salary     : 50000,
+  address_city: 'Madurai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4668'),
+  employee_id: 105,
+  name       : 'Lakshmi Iyer',
+  role       : 'Accounts Manager',
+  salary     : 85000,
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4669'),
+  employee_id: 106,
+  name       : 'Virat',
+  role       : 'Inventory Clerk',
+  salary     : 50000,
+  address_city: 'VIRUDUNAGAR'
+}
+
+
+// ============================================================
+// 11. find() with $lt -- Find employees with employee_id < 103
+// ============================================================
+
+db.employee.find({ employee_id: { $lt: 103 } });
+
+{
+  _id: ObjectId('69ece128206b0518276f4664'),
+  employee_id: 101,
+  name       : 'Rajesh Kumar',
+  role       : 'Director',
+  salary     : 100000,
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4665'),
+  employee_id: 102,
+  name       : 'Rajesh Kumar',
+  role       : 'Senior Staff',
+  salary     : 90000,
+  address_city: 'Chennai'
+}
+
+
+// ============================================================
+// 12. find() with $in -- Find by list of roles
+// ============================================================
+
+db.employee.find({
+  role: { $in: ["Senior Staff", "Inventory Clerk"] }
+});
+
+{
+  _id: ObjectId('69ece134206b0518276f4665'),
+  employee_id: 102,
+  name       : 'Rajesh Kumar',
+  role       : 'Senior Staff',
+  salary     : 90000,
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4666'),
+  employee_id: 103,
+  name       : 'Priya Sharma',
+  role       : 'Senior Staff',
+  salary     : 55000,
+  address_city: 'Madurai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4667'),
+  employee_id: 104,
+  name       : 'Vijay Reddy',
+  role       : 'Inventory Clerk',
+  salary     : 50000,
+  address_city: 'Madurai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4669'),
+  employee_id: 106,
+  name       : 'Virat',
+  role       : 'Inventory Clerk',
+  salary     : 50000,
+  address_city: 'VIRUDUNAGAR'
+}
+
+
+// ============================================================
+// 13. find() with $nin -- Find roles NOT in the list
+// ============================================================
+
+db.employee.find({
+  role: { $nin: ["Senior Staff", "Inventory Clerk"] }
+});
+
+{
+  _id: ObjectId('69ece128206b0518276f4664'),
+  employee_id: 101,
+  name       : 'Rajesh Kumar',
+  role       : 'Director',
+  salary     : 100000,
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4668'),
+  employee_id: 105,
+  name       : 'Lakshmi Iyer',
+  role       : 'Accounts Manager',
+  salary     : 85000,
+  address_city: 'Chennai'
+}
+
+
+// ============================================================
+// 14. sort() -- Sort by name ascending (A to Z)
+// ============================================================
+
+db.employee.find().sort({ name: 1 });
+
+{
+  _id: ObjectId('69ece134206b0518276f4668'),
+  employee_id: 105,
+  name       : 'Lakshmi Iyer',
+  role       : 'Accounts Manager',
+  salary     : 85000,
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4666'),
+  employee_id: 103,
+  name       : 'Priya Sharma',
+  role       : 'Senior Staff',
+  salary     : 55000,
+  address_city: 'Madurai'
+}
+{
+  _id: ObjectId('69ece128206b0518276f4664'),
+  employee_id: 101,
+  name       : 'Rajesh Kumar',
+  role       : 'Director',
+  salary     : 100000,
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4665'),
+  employee_id: 102,
+  name       : 'Rajesh Kumar',
+  role       : 'Senior Staff',
+  salary     : 90000,
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4667'),
+  employee_id: 104,
+  name       : 'Vijay Reddy',
+  role       : 'Inventory Clerk',
+  salary     : 50000,
+  address_city: 'Madurai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4669'),
+  employee_id: 106,
+  name       : 'Virat',
+  role       : 'Inventory Clerk',
+  salary     : 50000,
+  address_city: 'VIRUDUNAGAR'
+}
+
+
+// ============================================================
+// 15. sort() -- Sort by employee_id descending
+// ============================================================
+
+db.employee.find().sort({ employee_id: -1 });
+
+{
+  _id: ObjectId('69ece134206b0518276f4669'),
+  employee_id: 106,
+  name       : 'Virat',
+  role       : 'Inventory Clerk',
+  salary     : 50000,
+  address_city: 'VIRUDUNAGAR'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4668'),
+  employee_id: 105,
+  name       : 'Lakshmi Iyer',
+  role       : 'Accounts Manager',
+  salary     : 85000,
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4667'),
+  employee_id: 104,
+  name       : 'Vijay Reddy',
+  role       : 'Inventory Clerk',
+  salary     : 50000,
+  address_city: 'Madurai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4666'),
+  employee_id: 103,
+  name       : 'Priya Sharma',
+  role       : 'Senior Staff',
+  salary     : 55000,
+  address_city: 'Madurai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4665'),
+  employee_id: 102,
+  name       : 'Rajesh Kumar',
+  role       : 'Senior Staff',
+  salary     : 90000,
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ece128206b0518276f4664'),
+  employee_id: 101,
+  name       : 'Rajesh Kumar',
+  role       : 'Director',
+  salary     : 100000,
+  address_city: 'Chennai'
+}
+
+
+// ============================================================
+// 16. sort() -- Sort by name descending (Z to A)
+// ============================================================
+
+db.employee.find().sort({ name: -1 });
+
+{
+  _id: ObjectId('69ece134206b0518276f4669'),
+  employee_id: 106,
+  name       : 'Virat',
+  role       : 'Inventory Clerk',
+  salary     : 50000,
+  address_city: 'VIRUDUNAGAR'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4667'),
+  employee_id: 104,
+  name       : 'Vijay Reddy',
+  role       : 'Inventory Clerk',
+  salary     : 50000,
+  address_city: 'Madurai'
+}
+{
+  _id: ObjectId('69ece128206b0518276f4664'),
+  employee_id: 101,
+  name       : 'Rajesh Kumar',
+  role       : 'Director',
+  salary     : 100000,
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4665'),
+  employee_id: 102,
+  name       : 'Rajesh Kumar',
+  role       : 'Senior Staff',
+  salary     : 90000,
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4666'),
+  employee_id: 103,
+  name       : 'Priya Sharma',
+  role       : 'Senior Staff',
+  salary     : 55000,
+  address_city: 'Madurai'
+}
+{
+  _id: ObjectId('69ece134206b0518276f4668'),
+  employee_id: 105,
+  name       : 'Lakshmi Iyer',
+  role       : 'Accounts Manager',
+  salary     : 85000,
+  address_city: 'Chennai'
+}
+
+
+// ============================================================
+// 17. aggregate() -- Group by role, count employees
+// ============================================================
+
+db.employee.aggregate([
+  {
+    $group: {
+      _id             : "$role",
+      total_employees : { $sum: 1 }
+    }
+  }
+]);
+
+{
+  _id: 'Senior Staff',
+  total_employees: 2
+}
+{
+  _id: 'Director',
+  total_employees: 1
+}
+{
+  _id: 'Inventory Clerk',
+  total_employees: 2
+}
+{
+  _id: 'Accounts Manager',
+  total_employees: 1
+}
+
+
+// ============================================================
+// 18. aggregate() -- Group by role with total, max, min salary
+// ============================================================
+
+db.employee.aggregate([
+  {
+    $group: {
+      _id        : "$role",
+      total      : { $sum: 1 },
+      max_salary : { $max: "$salary" },
+      min_salary : { $min: "$salary" }
+    }
+  }
+]);
+
+{
+  _id: 'Senior Staff',
+  total: 2,
+  max_salary: 90000,
+  min_salary: 55000
+}
+{
+  _id: 'Director',
+  total: 1,
+  max_salary: 100000,
+  min_salary: 100000
+}
+{
+  _id: 'Inventory Clerk',
+  total: 2,
+  max_salary: 50000,
+  min_salary: 50000
+}
+{
+  _id: 'Accounts Manager',
+  total: 1,
+  max_salary: 85000,
+  min_salary: 85000
+}
+
+
+// ============================================================
+// 19. deleteOne() -- Delete a single employee by employee_id
+// ============================================================
+
+db.employee.deleteOne({ employee_id: 101 });
+
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+
+
+// ============================================================
+// 20. deleteMany() -- Delete by condition (city = Madurai)
+// ============================================================
+
+db.employee.deleteMany({ address_city: "Madurai" });
+
+{
+  acknowledged: true,
+  deletedCount: 2
+}
+
+
+// ============================================================
+// 21. deleteMany() -- Delete ALL documents
+// ============================================================
+
+db.employee.deleteMany({});
+
+{
+  acknowledged: true,
+  deletedCount: 3
+}
